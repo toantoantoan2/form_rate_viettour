@@ -52,10 +52,8 @@ class FormAdminController extends Controller
     }
 
     public function filterRateByDate(Request $request) {
-        $cvFromDate = str_replace('/', '-', $request->from_date);
-        $cvToDate = str_replace('/', '-', $request->to_date);
-        $from = date('Y-m-d', strtotime($cvFromDate));
-        $to = date('Y-m-d', strtotime($cvToDate));
+        $from = Carbon::createFromFormat('d/m/Y',$request->from_date);
+        $to = Carbon::createFromFormat('d/m/Y',$request->to_date);
         $tourRate = TourRate::whereBetween('created_at', [$from, $to])->get();
         $accommodationRate = AccommodationRate::whereBetween('created_at', [$from, $to])->get();
         $clientAdvice = ClientAdvice::whereBetween('created_at', [$from, $to])->get();
