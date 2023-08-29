@@ -39,21 +39,15 @@ class FormAdminController extends Controller
         ]);
     }
 
-    public function chart() {
-        $tourRate = TourRate::get();
-        $accommodationRate = AccommodationRate::get();
-        $clientAdvice = ClientAdvice::get();
-        $restaurantRate = RestaurantRate::get();
-        $tourLeadRate = TourLeadRate::get()->where('foreign','0');
-        $foreignTourLeadRate = TourLeadRate::get()->where('foreign','1');
-        $otherAdvice = OtherAdvice::get();
-        $vehicleRate = VehicleRate::get();
-        return view('rate-chart', compact('tourRate', 'accommodationRate', 'clientAdvice', 'restaurantRate', 'tourLeadRate', 'otherAdvice', 'vehicleRate','foreignTourLeadRate'));
-    }
-
-    public function filterRateByDate(Request $request) {
-        $from = Carbon::createFromFormat('d/m/Y',$request->from_date);
-        $to = Carbon::createFromFormat('d/m/Y',$request->to_date);
+    public function chart(Request $request) {
+        if(isset($request->from_date) && isset($request->to_date)) {
+            $from = Carbon::createFromFormat('d/m/Y',$request->from_date);
+            $to = Carbon::createFromFormat('d/m/Y',$request->to_date);
+        }
+        else {
+            $from = Carbon::now()->startOfMonth();
+            $to = Carbon::now()->endOfMonth();
+        }
         $tourRate = TourRate::whereBetween('created_at', [$from, $to])->get();
         $accommodationRate = AccommodationRate::whereBetween('created_at', [$from, $to])->get();
         $clientAdvice = ClientAdvice::whereBetween('created_at', [$from, $to])->get();
@@ -64,5 +58,4 @@ class FormAdminController extends Controller
         $vehicleRate = VehicleRate::whereBetween('created_at', [$from, $to])->get();
         return view('rate-chart', compact('tourRate', 'accommodationRate', 'clientAdvice', 'restaurantRate', 'tourLeadRate', 'otherAdvice', 'vehicleRate','foreignTourLeadRate'));
     }
-
 }

@@ -29,7 +29,6 @@ Route::prefix('admin')->name('manage.')->group(function () {
     Route::get('/form-details/{advice}', [FormAdminController::class, 'show'])->name('form-details');
     Route::get('/rate-chart', [FormAdminController::class, 'chart'])->name('rate-chart');
     Route::get('/search-form', [FormAdminController::class, 'search'])->name('search-form');
-    Route::get('/filter-rate-by-date', [FormAdminController::class, 'filterRateByDate'])->name('filter-rate-by-date');
 });
 
 

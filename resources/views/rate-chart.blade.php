@@ -26,7 +26,7 @@
     <div>
         <canvas id="chartJSContainer"></canvas>
       </div>
-      <form method="get" action="{{url('admin/filter-rate-by-date')}}">
+      <form method="get" action="{{url('admin/rate-chart')}}">
         @csrf
       <div class="row">
         <div class="col-12">
