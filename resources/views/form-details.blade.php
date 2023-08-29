@@ -1,17 +1,11 @@
 @extends('layouts/header_footer')
 @section('main')
 <body>
-<div class="container">
+<div class="container container-form-details">
 <h1 class ="title-green">
     Phiếu khảo sát khách hàng
 </h1>
-<p>
-   Chân thành cảm ơn Qúy khách hàng đã tín nhiệm và sử dụng dịch vụ của đất việt tour. Với mong muốn không ngừng nâng cao chất lượng sản phẩm để phục vụ khách hàng càng ngay càng tốt hơn, tôi rất mong Qúy khách hàng dành ít thời gian đóng góp ý kiến theo bảng dưới đây, hoặc Qúy khách hàng có thể góp ý trực tiếp bằng thư điện tử cho phòng chăm sóc khách hàng qua email:
-</p>
-<p class ="title-green">
-    cskh@datviettour.com.vn hoặc tổng đài (028) 73 081 888  (Line: 2204).
-</p>
-<form id="form-rate" method="post" action="{{url('client-form/nhap-form')}}">
+<form id="form-rate" method="post" action="">
     @csrf
 <div class="row">
 <div class="col-12">
@@ -23,55 +17,65 @@
 <div class="col-6">
         <div class="form-group">
             <label for="fullname" class="font-weight-bold">Họ và tên <span class="title-purple">*</span>:</label>
-            <input type="text" class="form-control check-empty" id="fullname" name="fullname" placeholder="Họ và tên người đánh giá">
+            <input type="text" class="form-control check-empty" id="fullname" name="fullname" placeholder="Họ và tên người đánh giá" disabled value="{{ $clientAdvice->client_name }}">
           </div>
         <div class="form-row">
           <div class="form-group col-md-6">
             <label for="phone_num" class="font-weight-bold">Điện thoại di động <span class="title-purple">*</span>:</label>
-            <input type="number" name="phone_num" class="form-control check-empty" id="phone_num" placeholder="Điện thoại di động">
+            <input disabled type="number" name="phone_num" class="form-control check-empty" id="phone_num" placeholder="Điện thoại di động" value="{{ $clientAdvice->phone_number }}">
           </div>
           <div class="form-group col-md-6">
             <label for="email" class="font-weight-bold">Thư điện tử:</label>
-            <input type="email" name="email" class="form-control" id="email" placeholder="Thư điện tử">
+            <input disabled type="email" name="email" class="form-control" id="email" placeholder="Thư điện tử" value="{{ $clientAdvice->email }}">
           </div>
         </div>
         <div class="form-row">
             <div class="form-group col-md-6">
               <label for="birthday" class="font-weight-bold">Sinh nhật:</label>
-              <input type="date" name="birthday" class="form-control" id="birthday" placeholder="Sinh nhật">
+              <input disabled type="date" name="birthday" class="form-control" id="birthday" placeholder="Sinh nhật" value="{{ $clientAdvice->date_of_birth }}">
             </div>
             <div class="form-group col-md-6">
               <label for="address" class="font-weight-bold">Địa chỉ liên hệ:</label>
-              <input type="text" name="address" class="form-control" id="address" placeholder="Địa chỉ liên hệ">
+              <input disabled type="text" name="address" class="form-control" id="address" placeholder="Địa chỉ liên hệ" value="{{ $clientAdvice->address }}">
             </div>
           </div>
 </div>
 <div class="col-6">
         <div class="form-group">
             <label for="fullname_company" class="font-weight-bold">Tên công ty<small> (nếu là khách đoàn)</small> - Tên trưởng nhóm <small>(nếu là khách ghép lẻ) </small><span class="title-purple">*</span>:</label>
-            <input type="text" class="form-control check-empty" id="fullname_company" name="fullname_company" placeholder="Tên công ty hoặc tên trường nhóm">
+            <input disabled type="text" class="form-control check-empty" id="fullname_company" name="fullname_company" placeholder="Tên công ty hoặc tên trường nhóm" value="{{ $clientAdvice->company_name }}">
           </div>
         <div class="form-row">
           <div class="form-group col-md-6">
             <label for="tour_name" class="font-weight-bold">Chương trình tour <span class="title-purple">*</span>:</label>
-            <input type="text" name="tour_name" class="form-control check-empty" id="tour_name" placeholder="Tên chương trinh tour">
+            <input disabled type="text" name="tour_name" class="form-control check-empty" id="tour_name" placeholder="Tên chương trinh tour" value="{{ $clientAdvice->tour_name }}">
           </div>
           <div class="form-group col-md-6">
             <label for="tour_lead" class="font-weight-bold">Tên hướng dẫn viên <span class="title-purple">*</span>:</label>
-            <input type="text" name="tour_lead" class="form-control check-empty" id="tour_lead" placeholder="Tên HDV chính của tour">
+            <input disabled type="text" name="tour_lead" class="form-control check-empty" id="tour_lead" placeholder="Tên HDV chính của tour" value="{{ $clientAdvice->lead_tour_name }}">
           </div>
         </div>
         <div class="form-row">
             <div class="form-group col-md-6">
               <label for="start_day" class="font-weight-bold">Ngày đi:</label>
-              <input type="date" name="start_day" class="form-control" id="start_day">
+              <input disabled type="date" name="start_day" class="form-control" id="start_day" value="{{ $clientAdvice->start_day }}">
             </div>
             <div class="form-group col-md-6">
               <label for="back_day" class="font-weight-bold">Ngày về:</label>
-              <input type="date" name="back_day" class="form-control" id="back_day" >
+              <input disabled type="date" name="back_day" class="form-control" id="back_day" value="{{ $clientAdvice->back_day }}">
             </div>
           </div>
 </div>
+
+<!-- pass to jquery -->
+<input type="hidden" name="clientAdvice" value="{{ json_encode($clientAdvice)}}">
+<input type="hidden" name="clientLeadTourRate" value="{{ json_encode($clientAdvice->clientLeadTourRate)}}">
+<input type="hidden" name="clientForeignLeadTourRate" value="{{ json_encode($clientAdvice->clientForeignLeadTourRate)}}">
+<input type="hidden" name="clientRestaurantRate" value="{{ json_encode($clientAdvice->clientRestaurantRate)}}">
+<input type="hidden" name="clientVehicleRate" value="{{ json_encode($clientAdvice->clientVehicleRate)}}">
+<input type="hidden" name="clientTourRate" value="{{ json_encode($clientAdvice->clientTourRate)}}">
+<input type="hidden" name="clientOtherAdvice" value="{{ json_encode($clientAdvice->clientOtherAdvice)}}">
+<input type="hidden" name="clientAccommodationRate" value="{{ json_encode($clientAdvice->clientAccommodationRate)}}">
 </div>
 <h6 class="title-purple">
     Xin quý khách vui lòng cho đánh giá & lựa chọn mức độ hài lòng của quý khách về dịch vụ tour mà quý khách đã trải nghiệm!
@@ -164,7 +168,7 @@
     <input  class="form-check-input checkbox-no-label" type="radio" name="tour_time" id="binhthuong" value="1"/>
 </div>
     <div class="form-check">
-    <input  class="form-check-input checkbox-no-label" type="radio" name="tour_sight_seeing" id="hailong" value="1"/>
+    <input  class="form-check-input checkbox-no-label" type="radio" name="tour_sight seeing" id="hailong" value="1"/>
 </div>
     <div class="form-check">
     <input  class="form-check-input checkbox-no-label" type="radio" name="tour_shopping" id="rathailong" value="1"/>
@@ -183,7 +187,7 @@
     <input  class="form-check-input checkbox-no-label" type="radio" name="tour_time" id="binhthuong" value="2"/>
 </div>
     <div class="form-check">
-    <input  class="form-check-input checkbox-no-label" type="radio" name="tour_sight_seeing" id="hailong" value="2"/>
+    <input  class="form-check-input checkbox-no-label" type="radio" name="tour_sight seeing" id="hailong" value="2"/>
 </div>
     <div class="form-check">
     <input  class="form-check-input checkbox-no-label" type="radio" name="tour_shopping" id="rathailong" value="2"/>
@@ -203,7 +207,7 @@
     <input  class="form-check-input checkbox-no-label" type="radio" name="tour_time" id="binhthuong" value="3"/>
 </div>
     <div class="form-check">
-    <input  class="form-check-input checkbox-no-label" type="radio" name="tour_sight_seeing" id="hailong" value="3"/>
+    <input  class="form-check-input checkbox-no-label" type="radio" name="tour_sight seeing" id="hailong" value="3"/>
 </div>
     <div class="form-check">
     <input  class="form-check-input checkbox-no-label" type="radio" name="tour_shopping" id="rathailong" value="3"/>
@@ -218,7 +222,7 @@
 
         <div class="form-group">
             <h6 class="d-inline-block"> Ý kiến khác: </h6>
-            <input type="text" class="input-no-border" id="others" name="tour_other" placeholder="......................................................................................................................................................................">
+            <input disabled type="text" class="input-no-border" value="{{ $clientAdvice->clientTourRate->tour_other }}" id="others" name="tour_other" placeholder="......................................................................................................................................................................">
           </div>
 
       </div>
@@ -336,7 +340,7 @@
 
                 <div class="form-group">
                     <h6 class="d-inline-block"> Ý kiến khác: </h6>
-                    <input type="text" class="input-no-border" id="others" name="restaurant_other" placeholder="......................................................................................................................................................................">
+                    <input disabled type="text" class="input-no-border" value="{{ $clientAdvice->clientRestaurantRate->restaurant_other }}" id="others" name="restaurant_other" placeholder="......................................................................................................................................................................">
                   </div>
 
               </div>
@@ -534,7 +538,7 @@
 
             <div class="form-group">
                 <h6 class="d-inline-block"> Ý kiến khác: </h6>
-                <input type="text" class="input-no-border" id="others" name="tour_lead_other" placeholder="......................................................................................................................................................................">
+                <input disabled type="text" class="input-no-border" id="others" name="tour_lead_other" value="{{ $clientAdvice->clientLeadTourRate->tour_lead_other }}" placeholder="......................................................................................................................................................................">
               </div>
 
           </div>
@@ -635,7 +639,7 @@
 
                     <div class="form-group">
                         <h6 class="d-inline-block"> Ý kiến khác: </h6>
-                        <input type="text" class="input-no-border" id="others" name="accommodation_other" placeholder=".............................................................................................................................">
+                        <input disabled type="text" class="input-no-border" id="others" value="{{ $clientAdvice->clientAccommodationRate->accommodation_other }}" name="accommodation_other" placeholder=".............................................................................................................................">
                       </div>
 
                   </div>
@@ -749,7 +753,7 @@
 
                     <div class="form-group">
                         <h6 class="d-inline-block"> Ý kiến khác: </h6>
-                        <input type="text" class="input-no-border" id="others" name="vehicle_other" placeholder="..................................................................................................................................">
+                        <input disabled type="text" class="input-no-border" id="others" value="{{ $clientAdvice->clientVehicleRate->vehicle_other }}" name="vehicle_other" placeholder="..................................................................................................................................">
                       </div>
 
                   </div>
@@ -952,7 +956,7 @@
 
                 <div class="form-group">
                     <h6 class="d-inline-block"> Ý kiến khác: </h6>
-                    <input type="text" class="input-no-border" id="others" name="foreign_tour_lead_other" placeholder="......................................................................................................................................................................">
+                    <input disabled type="text" class="input-no-border" id="others" value="{{ $clientAdvice->clientForeignLeadTourRate->tour_lead_other }}" name="tour_lead_other" placeholder="......................................................................................................................................................................">
                   </div>
 
               </div>
@@ -1006,7 +1010,7 @@
 </div>
 <div class="col-12">
     <div class="form-check">
-    <input  class="form-check-input" type="radio" name="viettour_before" id="domestic_viettour_before_check" value="0"/>
+    <input  class="form-check-input" type="radio" name="viettour_before" id="domestic_viettour_before_check" value="1"/>
 <label  class="form-check-label" for="khonghailong">Đã đi tour trong nước. Số lần:</label>
 <input type="number" class="input-no-border input-no-border-small " id="domestic_viettour_before" name="domestic_viettour_before" disabled placeholder="...................................................">
     </div>
@@ -1016,7 +1020,7 @@
 <input type="number" class="input-no-border input-no-border-small " id="foreign_viettour_before" name="foreign_viettour_before" disabled placeholder="...................................................">
 </div>
 <div class="form-check">
-<input  class="form-check-input" type="radio" name="viettour_before" id="hailong" value="2"/>
+<input  class="form-check-input" type="radio" name="never_viettour_before" id="hailong" value="2"/>
 <label  class="form-check-label" for="hailong">Trước đây chưa từng đi</label>
 </div>
         </div>
@@ -1097,7 +1101,7 @@
                     <div class="form-check">
                         <input  class="form-check-input" type="radio" name="tour_factor" id="tour_factor_check" value="6"/>
                         <label  class="form-check-label" for="rathailong">Khác:</label>
-                        <input type="text" class="input-no-border input-no-border-small" id="tour_factor" name="y_kien_khac" disabled placeholder=".....................................................................................................">
+                        <input type="text" class="input-no-border input-no-border-small" id="tour_factor" name="tour_factor_other" disabled placeholder=".....................................................................................................">
                     </div>
             </div>
 
@@ -1113,22 +1117,12 @@
 </div>
 <div class="col-12">
     <div class="form-group">
-        <textarea class="form-control" id="exampleFormControlTextarea1" name="other_advice" rows="3" placeholder="Nhập ý kiến đóng góp khác (nếu có)"></textarea>
+        <textarea disabled class="form-control" id="exampleFormControlTextarea1" name="other_advice" rows="3">{{ $clientAdvice->clientOtherAdvice->other_advice }}</textarea>
       </div>
-      <p class="font-weight-bold">
-        Đất Việt Tour chân thành cảm ơn những đóng góp đánh giá ý kiến của Quý khách hàng, Đất Việt Tour xin ghi nhận và sẽ cải tiến nâng cấp dịch vụ để phục vụ Quý khách hàng ngày một tốt hơn!
-      </p>
 </div>
 </div>
-<div class="row">
-    <div class="col-12 capcha-container">
-        <div class="g-recaptcha" data-sitekey="6Ldbdg0TAAAAAI7KAf72Q6uagbWzWecTeBWmrCpJ"></div>
-        <input type="submit" class="btn btn-success" value="GỬI Ý KIẾN"/>
-    </div>
-    </div>
 </form>
 </div>
-<script type="text/javascript" src="{{ asset('frontend/js/form-rate.js')}}"></script>
+<script type="text/javascript" src="{{ asset('frontend/js/form-details.js')}}"></script>
 </body>
 @stop
-
